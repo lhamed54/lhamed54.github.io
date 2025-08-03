@@ -1,0 +1,35 @@
+{
+  "name": "hamed-latif-website",
+  "version": "1.0.0",
+  "description": "Personal website for Hamed Latif - Computer Science student and AI developer",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=3000",
+    "build": "echo 'Build complete'",
+    "sass": "sass assets/sass/main.scss assets/css/main.css",
+    "sass:watch": "sass --watch assets/sass/main.scss:assets/css/main.css"
+  },
+  "keywords": [
+    "portfolio",
+    "personal-website",
+    "computer-science",
+    "ai-developer",
+    "web-development"
+  ],
+  "author": "Hamed Latif",
+  "license": "MIT",
+  "dependencies": {
+    "aos": "^2.3.4",
+    "jquery": "^3.7.1",
+    "@fortawesome/fontawesome-free": "^6.5.1"
+  },
+  "devDependencies": {
+    "sass": "^1.69.5",
+    "live-server": "^1.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lhamed54/hamed-latif-website"
+  },
+  "homepage": "https://hamedlatif.co.uk"
+}
