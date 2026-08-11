@@ -1,0 +1,238 @@
+/* NewNode AI — landing page skeleton
+   Colours are CSS variables below — swap these once the palette is decided. */
+
+:root {
+	--color-bg: #ffffff;
+	--color-bg-alt: #f5f5f7;
+	--color-text: #111111;
+	--color-text-muted: #555555;
+	--color-primary: #111111;
+	--color-primary-text: #ffffff;
+	--color-border: #e2e2e2;
+
+	--font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	--max-width: 1100px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-body);
+	color: var(--color-text);
+	background: var(--color-bg);
+	line-height: 1.6;
+}
+
+.container {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 0 24px;
+}
+
+/* Header */
+
+.site-header {
+	border-bottom: 1px solid var(--color-border);
+	position: sticky;
+	top: 0;
+	background: var(--color-bg);
+	z-index: 10;
+}
+
+.header-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 72px;
+}
+
+.logo {
+	font-weight: 700;
+	font-size: 1.25rem;
+	color: var(--color-text);
+	text-decoration: none;
+}
+
+.logo span {
+	color: var(--color-primary);
+}
+
+.nav {
+	display: flex;
+	gap: 28px;
+}
+
+.nav a {
+	color: var(--color-text-muted);
+	text-decoration: none;
+	font-size: 0.95rem;
+}
+
+.nav a:hover {
+	color: var(--color-text);
+}
+
+.btn {
+	display: inline-block;
+	padding: 10px 20px;
+	border-radius: 6px;
+	text-decoration: none;
+	font-size: 0.95rem;
+	font-weight: 600;
+	border: 1px solid transparent;
+}
+
+.btn-primary {
+	background: var(--color-primary);
+	color: var(--color-primary-text);
+}
+
+.btn-secondary {
+	background: transparent;
+	color: var(--color-text);
+	border-color: var(--color-border);
+}
+
+.btn-nav {
+	background: var(--color-primary);
+	color: var(--color-primary-text);
+	padding: 8px 18px;
+}
+
+/* Hero */
+
+.hero {
+	padding: 120px 0 90px;
+	text-align: center;
+}
+
+.eyebrow {
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: 0.8rem;
+	color: var(--color-text-muted);
+	margin: 0 0 16px;
+}
+
+.hero h1 {
+	font-size: clamp(2rem, 5vw, 3.4rem);
+	margin: 0 0 20px;
+	line-height: 1.15;
+}
+
+.hero-sub {
+	max-width: 620px;
+	margin: 0 auto 32px;
+	color: var(--color-text-muted);
+	font-size: 1.1rem;
+}
+
+.hero-actions {
+	display: flex;
+	gap: 16px;
+	justify-content: center;
+}
+
+/* Sections */
+
+.section {
+	padding: 90px 0;
+}
+
+.section-title {
+	font-size: 2rem;
+	margin: 0 0 40px;
+	text-align: center;
+}
+
+.services {
+	background: var(--color-bg-alt);
+}
+
+.about-text {
+	max-width: 700px;
+	margin: 0 auto;
+	text-align: center;
+	color: var(--color-text-muted);
+	font-size: 1.05rem;
+}
+
+.grid {
+	display: grid;
+	gap: 24px;
+}
+
+.grid-3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.card {
+	background: var(--color-bg);
+	border: 1px solid var(--color-border);
+	border-radius: 10px;
+	padding: 28px;
+}
+
+.card h3 {
+	margin-top: 0;
+}
+
+.card p {
+	color: var(--color-text-muted);
+	margin-bottom: 0;
+}
+
+.card-placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 160px;
+	color: var(--color-text-muted);
+	background: var(--color-bg-alt);
+}
+
+.contact {
+	text-align: center;
+}
+
+.contact p {
+	color: var(--color-text-muted);
+	margin-bottom: 28px;
+}
+
+/* Footer */
+
+.site-footer {
+	border-top: 1px solid var(--color-border);
+	padding: 28px 0;
+}
+
+.footer-inner {
+	display: flex;
+	justify-content: space-between;
+	color: var(--color-text-muted);
+	font-size: 0.9rem;
+}
+
+.footer-inner a {
+	color: var(--color-text-muted);
+}
+
+/* Responsive */
+
+@media (max-width: 760px) {
+	.nav {
+		display: none;
+	}
+
+	.grid-3 {
+		grid-template-columns: 1fr;
+	}
+
+	.hero {
+		padding: 90px 0 60px;
+	}
+}
