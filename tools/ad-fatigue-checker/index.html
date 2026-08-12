@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad Fatigue Checker — Should You Kill, Refresh, or Keep Your Facebook/Instagram Ad?</title>
+<meta name="description" content="Free tool: check whether your Facebook or Instagram ad has fatigued and should be killed, refreshed, or left alone — based on frequency, CTR, CPA, and conversion trends.">
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --border: #e3e6ee;
+    --text: #1c2130;
+    --text-muted: #5b6072;
+    --accent: #3457d5;
+    --accent-dark: #23408f;
+    --kill: #c8372f;
+    --kill-bg: #fdecea;
+    --refresh: #b5750a;
+    --refresh-bg: #fdf3e1;
+    --watch: #1c8a4c;
+    --watch-bg: #e8f7ee;
+    --insufficient: #5b6072;
+    --insufficient-bg: #eef0f5;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+  header.page-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  header.page-header h1 {
+    font-size: 1.9rem;
+    margin: 0 0 10px;
+  }
+  header.page-header p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(20, 24, 40, 0.04);
+  }
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.15rem;
+  }
+  .field {
+    margin-bottom: 20px;
+  }
+  .field label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+  }
+  .field .hint {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  input[type="number"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--text);
+  }
+  input[type="number"]:focus, select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 520px) {
+    .row { grid-template-columns: 1fr; }
+  }
+  .mode-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .mode-toggle button {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--text-muted);
+  }
+  .mode-toggle button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+  .numbers-mode { display: none; }
+  .numbers-mode.visible { display: block; }
+  .direction-mode.hidden { display: none; }
+
+  button.submit {
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  button.submit:hover { background: var(--accent-dark); }
+
+  .result-card { display: none; }
+  .result-card.visible { display: block; }
+
+  .verdict-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+  .verdict-badge.kill { background: var(--kill-bg); color: var(--kill); }
+  .verdict-badge.refresh { background: var(--refresh-bg); color: var(--refresh); }
+  .verdict-badge.watch { background: var(--watch-bg); color: var(--watch); }
+  .verdict-badge.insufficient { background: var(--insufficient-bg); color: var(--insufficient); }
+
+  .reasons {
+    list-style: none;
+    margin: 18px 0;
+    padding: 0;
+  }
+  .reasons li {
+    position: relative;
+    padding: 8px 0 8px 26px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.96rem;
+  }
+  .reasons li:last-child { border-bottom: none; }
+  .reasons li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .caveat {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    font-style: italic;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    margin-top: 8px;
+  }
+
+  .cta {
+    margin-top: 22px;
+    text-align: center;
+    padding: 20px;
+    background: #f3f5fc;
+    border-radius: 10px;
+  }
+  .cta p {
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  .cta a.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--accent-dark);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 700;
+  }
+  .cta a.btn:hover { background: var(--accent); }
+
+  .error-msg {
+    color: var(--kill);
+    font-size: 0.88rem;
+    margin-top: 6px;
+    display: none;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page-header">
+    <h1>Ad Fatigue Checker</h1>
+    <p>Answer a few questions about one Facebook or Instagram ad and get a straight read on whether to kill it, refresh the creative, or leave it running — with the reasoning shown.</p>
+  </header>
+
+  <form class="card" id="fatigue-form" novalidate>
+    <h2>1. The ad</h2>
+
+    <div class="row">
+      <div class="field">
+        <label for="days">Days the ad has been running</label>
+        <input type="number" id="days" min="0" step="1" required>
+      </div>
+      <div class="field">
+        <label for="campaignType">Campaign type</label>
+        <select id="campaignType" required>
+          <option value="cold">Cold prospecting</option>
+          <option value="retargeting">Retargeting</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="frequency">Current frequency (impressions per person)</label>
+      <input type="number" id="frequency" min="0" step="0.1" required>
+      <div class="hint">Found in Ads Manager under the "Frequency" column.</div>
+    </div>
+
+    <h2>2. CTR trend (last 7 days)</h2>
+    <div class="mode-toggle" data-group="ctr">
+      <button type="button" class="active" data-mode="direction">I know the direction</button>
+      <button type="button" data-mode="numbers">I have the numbers</button>
+    </div>
+    <div class="direction-mode" id="ctr-direction-mode">
+      <div class="field">
+        <label for="ctrDirection">CTR over the last 7 days</label>
+        <select id="ctrDirection">
+          <option value="up">Trending up</option>
+          <option value="flat" selected>Roughly flat</option>
+          <option value="down">Trending down</option>
+        </select>
+      </div>
+    </div>
+    <div class="numbers-mode" id="ctr-numbers-mode">
+      <div class="row">
+        <div class="field">
+          <label for="ctrStart">CTR ~7 days ago (%)</label>
+          <input type="number" id="ctrStart" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label for="ctrEnd">CTR today (%)</label>
+          <input type="number" id="ctrEnd" min="0" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <h2>3. CPA trend (last 7 days)</h2>
+    <div class="mode-toggle" data-group="cpa">
+      <button type="button" class="active" data-mode="direction">I know the direction</button>
+      <button type="button" data-mode="numbers">I have the numbers</button>
+    </div>
+    <div class="direction-mode" id="cpa-direction-mode">
+      <div class="field">
+        <label for="cpaDirection">CPA over the last 7 days</label>
+        <select id="cpaDirection">
+          <option value="down">Trending down (cheaper)</option>
+          <option value="flat" selected>Roughly flat</option>
+          <option value="up">Trending up (more expensive)</option>
+        </select>
+      </div>
+    </div>
+    <div class="numbers-mode" id="cpa-numbers-mode">
+      <div class="row">
+        <div class="field">
+          <label for="cpaStart">CPA ~7 days ago</label>
+          <input type="number" id="cpaStart" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label for="cpaEnd">CPA today</label>
+          <input type="number" id="cpaEnd" min="0" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <h2>4. Results (last 7 days)</h2>
+    <div class="row">
+      <div class="field">
+        <label for="conversions">Purchases / leads in the last 7 days</label>
+        <input type="number" id="conversions" min="0" step="1" required>
+      </div>
+      <div class="field">
+        <label for="conversionsTrend">Purchases / leads trend</label>
+        <select id="conversionsTrend">
+          <option value="up">Trending up</option>
+          <option value="flat" selected>Roughly flat</option>
+          <option value="down">Trending down</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="error-msg" id="form-error">Please fill in the required fields with valid numbers.</div>
+
+    <button type="submit" class="submit">Get my verdict</button>
+  </form>
+
+  <div class="card result-card" id="result-card">
+    <div id="verdict-badge" class="verdict-badge"></div>
+    <ul class="reasons" id="reasons-list"></ul>
+    <div class="caveat">This is a directional read based on common ad-fatigue patterns — not an audit of your account. For a full review of what's actually happening (and what to do about it), book an audit below.</div>
+    <div class="cta">
+      <p>Want a second pair of eyes on your account, not just this one ad?</p>
+      <a class="btn" id="cta-link" href="#" target="_blank" rel="noopener">Book your £180 audit on Fiverr (1,000+ reviews) →</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // TODO: replace with the real Fiverr gig URL before this page goes live.
+  var FIVERR_GIG_URL = "https://www.fiverr.com/";
+
+  document.getElementById("cta-link").setAttribute("href", FIVERR_GIG_URL);
+
+  // ---- mode toggles (direction vs numbers, for CTR and CPA) ----
+  document.querySelectorAll(".mode-toggle").forEach(function (toggle) {
+    var group = toggle.getAttribute("data-group");
+    var directionEl = document.getElementById(group + "-direction-mode");
+    var numbersEl = document.getElementById(group + "-numbers-mode");
+    toggle.querySelectorAll("button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        toggle.querySelectorAll("button").forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        var mode = btn.getAttribute("data-mode");
+        if (mode === "numbers") {
+          directionEl.classList.add("hidden");
+          numbersEl.classList.add("visible");
+        } else {
+          directionEl.classList.remove("hidden");
+          numbersEl.classList.remove("visible");
+        }
+      });
+    });
+  });
+
+  // ---- core logic (pure function, no DOM) ----
+
+  var TREND_THRESHOLD_PCT = 8; // % change over the period below which we call it "flat"
+  var LOW_VOLUME_CUTOFF = 15;  // purchases/leads below this = not enough data to trust the trend
+
+  function freqLevel(freq, campaignType) {
+    if (campaignType === "retargeting") {
+      if (freq >= 10) return "high";
+      if (freq >= 6) return "moderate";
+      return "low";
+    }
+    // cold prospecting
+    if (freq >= 6) return "high";
+    if (freq >= 3) return "moderate";
+    return "low";
+  }
+
+  // goodDirection: "up" = higher is better (CTR), "down" = lower is better (CPA)
+  function resolveDirection(startVal, endVal, goodDirection) {
+    if (startVal == null || endVal == null || isNaN(startVal) || isNaN(endVal) || startVal === 0) {
+      return null;
+    }
+    var pctChange = ((endVal - startVal) / startVal) * 100;
+    var risingOrFalling = pctChange >= TREND_THRESHOLD_PCT ? "up" : (pctChange <= -TREND_THRESHOLD_PCT ? "down" : "flat");
+    return { direction: risingOrFalling, pctChange: pctChange };
+  }
+
+  function fmtPct(n) {
+    return (n >= 0 ? "+" : "") + n.toFixed(0) + "%";
+  }
+
+  function evaluateAd(data) {
+    var reasons = [];
+
+    // Low-volume override takes priority over everything else.
+    if (data.conversions < LOW_VOLUME_CUTOFF) {
+      reasons.push(
+        "Only " + data.conversions + " purchase" + (data.conversions === 1 ? "" : "s") + "/lead" + (data.conversions === 1 ? "" : "s") +
+        " in the last 7 days — below the roughly " + LOW_VOLUME_CUTOFF + " needed to read a trend with confidence."
+      );
+      reasons.push("Frequency, CTR, and CPA might be telling a real story, but there isn't enough volume yet to act on it with confidence.");
+      return {
+        verdict: "Not enough data yet for a confident read",
+        severity: "insufficient",
+        reasons: reasons
+      };
+    }
+
+    var fLevel = freqLevel(data.freq, data.campaignType);
+    var campaignLabel = data.campaignType === "retargeting" ? "retargeting" : "cold prospecting";
+
+    var ctrBad = data.ctrDirection === "down";
+    var ctrGood = data.ctrDirection === "up";
+    var cpaBad = data.cpaDirection === "up";
+    var cpaGood = data.cpaDirection === "down";
+    var convDown = data.conversionsTrend === "down";
+    var convUp = data.conversionsTrend === "up";
+
+    var negativeEfficiencySignal = ctrBad || cpaBad;
+    // Moderate frequency alone is just context, not an action signal — only
+    // high frequency (an independently-cited fatigue signal) or a bad
+    // CTR/CPA trend should push the verdict toward "refresh".
+    var anyWarningSignal = fLevel === "high" || ctrBad || cpaBad;
+
+    // Build the frequency reason line (used across branches).
+    var freqReason;
+    if (fLevel === "high") {
+      freqReason = "Frequency is at " + data.freq + " for a " + campaignLabel + " campaign — that's in the range commonly flagged as a fatigue signal.";
+    } else if (fLevel === "moderate") {
+      freqReason = "Frequency is at " + data.freq + " for a " + campaignLabel + " campaign — creeping up, worth watching.";
+    } else {
+      freqReason = "Frequency is at " + data.freq + " for a " + campaignLabel + " campaign — still within a healthy range.";
+    }
+
+    var ctrReason = null;
+    if (data.ctrPctChange != null) {
+      ctrReason = "CTR is " + (ctrBad ? "down" : ctrGood ? "up" : "roughly flat") + " (" + fmtPct(data.ctrPctChange) + ") over the last 7 days.";
+    } else if (data.ctrDirection) {
+      ctrReason = "CTR is " + data.ctrDirection + " over the last 7 days.";
+    }
+
+    var cpaReason = null;
+    if (data.cpaPctChange != null) {
+      cpaReason = "CPA is " + (cpaBad ? "up" : cpaGood ? "down" : "roughly flat") + " (" + fmtPct(data.cpaPctChange) + ") over the last 7 days.";
+    } else if (data.cpaDirection) {
+      cpaReason = "CPA is " + data.cpaDirection + " over the last 7 days.";
+    }
+
+    var convReason = "Purchases/leads are " + data.conversionsTrend + " over the last 7 days (" + data.conversions + " in the period).";
+
+    var verdict, severity;
+
+    if (convDown && (negativeEfficiencySignal || fLevel === "high")) {
+      verdict = "Kill it";
+      severity = "kill";
+      reasons.push(freqReason);
+      if (ctrReason) reasons.push(ctrReason);
+      if (cpaReason) reasons.push(cpaReason);
+      reasons.push(convReason + " Declining results alongside weakening efficiency is the clearest fatigue signature.");
+    } else if (anyWarningSignal && !convDown) {
+      verdict = "Refresh the creative, keep the audience";
+      severity = "refresh";
+      reasons.push(freqReason);
+      if (ctrReason) reasons.push(ctrReason);
+      if (cpaReason) reasons.push(cpaReason);
+      reasons.push(convReason + " Results are holding up, which points to creative fatigue rather than a bad audience — swap the creative and keep targeting as-is.");
+    } else {
+      verdict = "Not yet, keep watching";
+      severity = "watch";
+      reasons.push(freqReason);
+      if (ctrReason) reasons.push(ctrReason);
+      if (cpaReason) reasons.push(cpaReason);
+      reasons.push(convReason + " No strong combination of fatigue signals yet — recheck in a few days.");
+    }
+
+    if (data.days < 7) {
+      reasons.push("Heads up: this ad has only been running " + data.days + " day" + (data.days === 1 ? "" : "s") + ", so the 7-day trend figures may not reflect a full week yet.");
+    }
+
+    return { verdict: verdict, severity: severity, reasons: reasons };
+  }
+
+  // expose for console/manual testing
+  window.__evaluateAd = evaluateAd;
+
+  // ---- form wiring ----
+
+  var form = document.getElementById("fatigue-form");
+  var resultCard = document.getElementById("result-card");
+  var badgeEl = document.getElementById("verdict-badge");
+  var reasonsEl = document.getElementById("reasons-list");
+  var errorEl = document.getElementById("form-error");
+
+  function numOrNull(id) {
+    var v = document.getElementById(id).value;
+    if (v === "") return null;
+    var n = parseFloat(v);
+    return isNaN(n) ? null : n;
+  }
+
+  function activeMode(group) {
+    var toggle = document.querySelector('.mode-toggle[data-group="' + group + '"]');
+    return toggle.querySelector("button.active").getAttribute("data-mode");
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var days = numOrNull("days");
+    var freq = numOrNull("frequency");
+    var conversions = numOrNull("conversions");
+    var campaignType = document.getElementById("campaignType").value;
+    var conversionsTrend = document.getElementById("conversionsTrend").value;
+
+    if (days === null || freq === null || conversions === null || days < 0 || freq < 0 || conversions < 0) {
+      errorEl.style.display = "block";
+      return;
+    }
+    errorEl.style.display = "none";
+
+    var ctrDirection, ctrPctChange = null;
+    if (activeMode("ctr") === "numbers") {
+      var ctrRes = resolveDirection(numOrNull("ctrStart"), numOrNull("ctrEnd"), "up");
+      if (ctrRes) { ctrDirection = ctrRes.direction; ctrPctChange = ctrRes.pctChange; }
+      else { ctrDirection = document.getElementById("ctrDirection").value; }
+    } else {
+      ctrDirection = document.getElementById("ctrDirection").value;
+    }
+
+    var cpaDirection, cpaPctChange = null;
+    if (activeMode("cpa") === "numbers") {
+      var cpaRes = resolveDirection(numOrNull("cpaStart"), numOrNull("cpaEnd"), "down");
+      if (cpaRes) { cpaDirection = cpaRes.direction; cpaPctChange = cpaRes.pctChange; }
+      else { cpaDirection = document.getElementById("cpaDirection").value; }
+    } else {
+      cpaDirection = document.getElementById("cpaDirection").value;
+    }
+
+    var result = evaluateAd({
+      days: days,
+      freq: freq,
+      campaignType: campaignType,
+      ctrDirection: ctrDirection,
+      ctrPctChange: ctrPctChange,
+      cpaDirection: cpaDirection,
+      cpaPctChange: cpaPctChange,
+      conversions: conversions,
+      conversionsTrend: conversionsTrend
+    });
+
+    badgeEl.textContent = result.verdict;
+    badgeEl.className = "verdict-badge " + result.severity;
+
+    reasonsEl.innerHTML = "";
+    result.reasons.forEach(function (r) {
+      var li = document.createElement("li");
+      li.textContent = r;
+      reasonsEl.appendChild(li);
+    });
+
+    resultCard.classList.add("visible");
+    resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+})();
+</script>
+
+</body>
+</html>
