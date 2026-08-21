@@ -335,7 +335,11 @@
 (function () {
   "use strict";
 
-  var FIVERR_GIG_URL = "https://www.fiverr.com/workbunny1/give-you-high-level-consultation-on-your-facebook-ads?ref_ctx_id=dcc462a4e6724854879bf80234d6f22b&pckg_id=1&source=seller_page";
+  // Built with String.fromCharCode instead of a literal "&" — WordPress's
+  // content filter (wptexturize) silently rewrites bare "&" characters to
+  // "&#038;" in page content, which corrupts a literal "&" if typed here.
+  var AMP = String.fromCharCode(38);
+  var FIVERR_GIG_URL = "https://www.fiverr.com/workbunny1/give-you-high-level-consultation-on-your-facebook-ads?ref_ctx_id=dcc462a4e6724854879bf80234d6f22b" + AMP + "pckg_id=1" + AMP + "source=seller_page";
 
   document.getElementById("afc-cta-link").setAttribute("href", FIVERR_GIG_URL);
 
@@ -452,14 +456,14 @@
 
     var verdict, severity;
 
-    if (convDown && (negativeEfficiencySignal || fLevel === "high")) {
+    if (convDown ? (negativeEfficiencySignal || fLevel === "high") : false) {
       verdict = "Kill it";
       severity = "afc-kill";
       reasons.push(freqReason);
       if (ctrReason) reasons.push(ctrReason);
       if (cpaReason) reasons.push(cpaReason);
       reasons.push(convReason + " Declining results alongside weakening efficiency is the clearest fatigue signature.");
-    } else if (anyWarningSignal && !convDown) {
+    } else if (anyWarningSignal ? !convDown : false) {
       verdict = "Refresh the creative, keep the audience";
       severity = "afc-refresh";
       reasons.push(freqReason);
@@ -493,7 +497,7 @@
       if (typeof window.fbq === "function") {
         window.fbq("trackCustom", name, params || {});
       }
-      if (window.ttq && typeof window.ttq.track === "function") {
+      if (window.ttq ? typeof window.ttq.track === "function" : false) {
         window.ttq.track(name, params || {});
       }
     } catch (e) {
