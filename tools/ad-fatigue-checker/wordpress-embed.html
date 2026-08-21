@@ -482,8 +482,8 @@
     return { verdict: verdict, severity: severity, reasons: reasons };
   }
 
-  // ---- analytics (fires only if GA4/gtag and/or Meta Pixel/fbq are
-  // already loaded on the page — no-ops otherwise) ----
+  // ---- analytics (fires only if GA4/gtag, Meta Pixel/fbq, and/or TikTok
+  // Pixel/ttq are already loaded on the page — no-ops otherwise) ----
 
   function trackEvent(name, params) {
     try {
@@ -492,6 +492,9 @@
       }
       if (typeof window.fbq === "function") {
         window.fbq("trackCustom", name, params || {});
+      }
+      if (window.ttq && typeof window.ttq.track === "function") {
+        window.ttq.track(name, params || {});
       }
     } catch (e) {
       // analytics blocked (ad blocker, consent tool) — nothing to do
