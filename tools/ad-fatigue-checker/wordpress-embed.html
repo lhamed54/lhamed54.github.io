@@ -482,6 +482,22 @@
     return { verdict: verdict, severity: severity, reasons: reasons };
   }
 
+  // ---- analytics (fires only if GA4/gtag and/or Meta Pixel/fbq are
+  // already loaded on the page — no-ops otherwise) ----
+
+  function trackEvent(name, params) {
+    try {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", name, params || {});
+      }
+      if (typeof window.fbq === "function") {
+        window.fbq("trackCustom", name, params || {});
+      }
+    } catch (e) {
+      // analytics blocked (ad blocker, consent tool) — nothing to do
+    }
+  }
+
   // ---- form wiring ----
 
   var form = document.getElementById("afc-fatigue-form");
@@ -489,6 +505,11 @@
   var badgeEl = document.getElementById("afc-verdict-badge");
   var reasonsEl = document.getElementById("afc-reasons-list");
   var errorEl = document.getElementById("afc-form-error");
+  var ctaLink = document.getElementById("afc-cta-link");
+
+  ctaLink.addEventListener("click", function () {
+    trackEvent("ad_fatigue_cta_click");
+  });
 
   function numOrNull(id) {
     var v = document.getElementById(id).value;
@@ -504,6 +525,7 @@
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+    trackEvent("ad_fatigue_get_verdict_click");
 
     var days = numOrNull("afc-days");
     var freq = numOrNull("afc-frequency");
@@ -546,6 +568,8 @@
       conversions: conversions,
       conversionsTrend: conversionsTrend
     });
+
+    trackEvent("ad_fatigue_verdict_shown", { verdict: result.severity });
 
     badgeEl.textContent = result.verdict;
     badgeEl.className = "afc-verdict-badge " + result.severity;
