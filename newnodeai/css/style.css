@@ -56,7 +56,7 @@ h1 em, h2 span, h2 em { color: var(--green); font-style: normal; }
 .meta-line { width: 34px; height: 1px; background: var(--line); }
 .hero-portrait { position: relative; max-width: 520px; justify-self: end; }
 .portrait-frame { position: relative; overflow: visible; background: transparent; }
-.portrait-frame img { display: block; width: 100%; height: auto; object-fit: contain; filter: saturate(.82) contrast(1.08) brightness(.92) drop-shadow(0 22px 22px rgba(0,0,0,.24)); }
+.portrait-frame img { display: block; width: 100%; height: auto; object-fit: contain; filter: saturate(.82) contrast(1.06) brightness(.9); }
 .status-dot { display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 9px var(--green); }
 .portrait-caption { display: flex; justify-content: space-between; margin-top: 22px; color: #66776c; font: .64rem var(--mono); letter-spacing: .04em; text-transform: uppercase; }
 .portrait-caption span:first-child { color: var(--green); }
