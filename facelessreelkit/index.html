@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Faceless Reel Kit: one sentence to a finished reel</title>
+<meta name="description" content="A Claude Code skill and video kit that writes, voices and animates faceless Instagram reels from one line. Plus the playbook to grow the page.">
+<link rel="canonical" href="https://hamedlatif.co.uk/facelessreelkit/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hamedlatif.co.uk/facelessreelkit/">
+<meta property="og:title" content="Faceless Reel Kit">
+<meta property="og:description" content="Type one sentence. Get a finished, voiced, animated reel.">
+<meta property="og:image" content="https://hamedlatif.co.uk/facelessreelkit/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FF5B2E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23FF5B2E'/%3E%3C/svg%3E">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px/1.4 system-ui,sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: an editing-timeline motif. Hero pairs copy with a 9:16 phone playing the ten page looks; a clip track under it acts as the scrubber. */
+:root{
+  --bg:#EDEEF3; --surface:#FFFFFF; --ink:#15151C; --muted:#5D5F70; --line:#D5D7E1;
+  --accent:#FF5B2E; --accent-ink:#FFFFFF; --track:#2D6BFF; --code-bg:#15151C; --code-fg:#E9EAF2;
+  --f-display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --f-body:"DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101016; --surface:#1A1A23; --ink:#ECECF3; --muted:#9A9CAE; --line:#2C2D3A;
+  --accent:#FF6B40; --accent-ink:#14141A; --track:#5B8CFF; --code-bg:#0A0A0F; --code-fg:#E9EAF2; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101016; --surface:#1A1A23; --ink:#ECECF3; --muted:#9A9CAE; --line:#2C2D3A;
+  --accent:#FF6B40; --accent-ink:#14141A; --track:#5B8CFF; --code-bg:#0A0A0F; --code-fg:#E9EAF2; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-family:var(--f-display);line-height:1.02;text-wrap:balance;margin:0}
+h2{font-size:clamp(2rem,4.6vw,3.1rem);font-weight:800;letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--track);outline-offset:3px;border-radius:6px}
+.mono{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+section{padding-block:clamp(56px,9vw,104px)}
+
+/* nav */
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.15rem;display:flex;align-items:center;gap:10px;text-decoration:none}
+.rec{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;padding:12px 20px;border-radius:999px;border:0;font-family:var(--f-body);font-size:1rem;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.small{padding:8px 16px;font-size:.92rem}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,64px);align-items:center;padding-block:clamp(40px,7vw,80px)}
+.hero h1{font-size:clamp(2.6rem,6.4vw,5rem);font-weight:800;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.lede{font-size:1.15rem;color:var(--muted);max-width:34em;margin-top:20px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:28px}
+.facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:28px;padding-top:20px;border-top:1px dashed var(--line)}
+.facts span b{font-family:var(--f-display);font-size:1.4rem;margin-right:6px}
+.facts span{color:var(--muted);font-size:.92rem}
+
+.stage{display:flex;flex-direction:column;align-items:center;gap:16px;min-width:0}
+.phone{position:relative;width:min(300px,78vw);aspect-ratio:9/16;max-width:100%;border-radius:38px;background:#000;padding:10px;box-shadow:0 30px 60px -20px rgba(20,20,40,.45),0 0 0 1px var(--line)}
+.phone canvas{width:100%;height:100%;display:block;border-radius:29px}
+.tc{position:absolute;top:22px;left:24px;right:24px;display:flex;justify-content:space-between;color:#fff;pointer-events:none}
+.tc span{background:rgba(0,0,0,.55);padding:2px 7px;border-radius:6px}
+.track{width:min(340px,92vw);display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.track button{height:30px;border:0;border-radius:6px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;position:relative;overflow:hidden;padding:0;color:var(--muted);font-family:var(--f-mono);font-size:.7rem}
+.track button .fill{position:absolute;inset:0;background:var(--track);transform-origin:left;transform:scaleX(0)}
+.track button.on{color:#fff}
+.track button span{position:relative}
+.nowplaying{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);text-align:center;min-height:1.3em}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.step .n{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);font-weight:600}
+.step h3{font-size:1.25rem}
+.step p{color:var(--muted);font-size:.95rem}
+
+/* pages grid */
+.pages-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.pages-head p{color:var(--muted);max-width:30em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:36px}
+.card{border-top:3px solid var(--sw);padding:18px 4px 6px;display:flex;flex-direction:column;gap:8px}
+.card .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.card h3{font-size:1.3rem}
+.card .niche{color:var(--muted);font-size:.85rem}
+.card ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px}
+.card li{font-size:.92rem;padding-left:16px;position:relative}
+.card li::before{content:"▸";position:absolute;left:0;color:var(--sw)}
+.card .play{align-self:flex-start;margin-top:6px;background:none;border:0;padding:0;color:var(--ink);font-weight:700;cursor:pointer;font-family:var(--f-body);text-decoration:underline;text-underline-offset:4px}
+
+/* sample */
+.sample{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,5vw,56px);align-items:start}
+.sample .copy p{color:var(--muted);margin-top:16px}
+.code{background:var(--code-bg);color:var(--code-fg);border-radius:18px;overflow:hidden;min-width:0}
+.code header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #2a2a36;gap:10px}
+.code header .mono{color:#9A9CAE}
+.code pre{margin:0;padding:18px;overflow-x:auto;white-space:pre-wrap;font-family:var(--f-mono);font-size:.8rem;line-height:1.6}
+.code pre .k{color:#FF8A66}
+.copybtn{background:#2a2a36;color:#fff;border:0;border-radius:8px;padding:6px 12px;font-family:var(--f-mono);font-size:.75rem;cursor:pointer}
+
+/* pricing */
+.price{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.price > div{padding:clamp(24px,4vw,44px)}
+.price .left{border-right:1px dashed var(--line)}
+.amount{font-family:var(--f-display);font-weight:800;font-size:clamp(3.4rem,8vw,5rem);letter-spacing:-.04em;line-height:1;margin-top:14px}
+.amount small{font-size:1rem;font-weight:500;color:var(--muted);letter-spacing:0;margin-left:6px}
+.incl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.incl li{display:flex;gap:12px;align-items:baseline}
+.incl li::before{content:"";flex:none;width:8px;height:8px;border-radius:2px;background:var(--track);transform:translateY(-2px)}
+.fine{color:var(--muted);font-size:.85rem;margin-top:14px}
+
+/* faq */
+.faq{max-width:760px;margin-top:28px;border-top:1px solid var(--line)}
+details{border-bottom:1px solid var(--line);padding-block:18px}
+summary{cursor:pointer;font-weight:700;font-size:1.08rem;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::after{content:"+";font-family:var(--f-mono);color:var(--accent)}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px;max-width:60ch}
+
+footer{border-top:1px solid var(--line);padding-block:32px;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+@media (max-width:880px){
+  .hero .wrap,.sample,.price{grid-template-columns:1fr}
+  .price .left{border-right:0;border-bottom:1px dashed var(--line)}
+  .steps{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+
+<style>
+.bar{background:var(--ink);color:var(--bg);text-align:center;font-size:.92rem;padding-block:9px}
+.bar .wrap{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.bar b{color:var(--accent);font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 16px 7px 8px;font-size:.92rem;color:var(--muted)}
+.pill i{width:26px;height:26px;border-radius:50%;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-style:normal;font-weight:700;font-size:.8rem}
+.phone video{width:100%;height:100%;display:block;border-radius:29px;object-fit:cover;background:#000}
+.vidnote{font-size:.85rem;color:var(--muted);text-align:center;max-width:300px}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.check{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;gap:16px}
+.check svg{flex:none;margin-top:3px}
+.check p{color:var(--muted)}
+.check p b{color:var(--ink)}
+.styles{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,6vw,72px);align-items:center}
+.styles .copy p{color:var(--muted);margin-top:16px;max-width:32em}
+.inside{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:36px;border-top:1px solid var(--line)}
+.inside > div{padding:22px 20px 22px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-width:0}
+.inside .path{font-family:var(--f-mono);font-size:.78rem;color:var(--track);overflow-wrap:anywhere}
+.inside h3{font-size:1.15rem}
+.inside p{color:var(--muted);font-size:.95rem}
+.price .was{font-family:var(--f-display);font-size:1.6rem;color:var(--muted);text-decoration:line-through;margin-top:14px}
+.pages{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:32px}
+.pg{border-top:3px solid var(--sw);padding-top:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.pg b{font-family:var(--f-display);font-size:1.05rem}
+.pg span{color:var(--muted);font-size:.85rem}
+.pg a{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);text-decoration:none;overflow-wrap:anywhere}
+@media (max-width:880px){.checks,.styles{grid-template-columns:1fr}.inside{grid-template-columns:1fr 1fr}.pages{grid-template-columns:repeat(2,1fr)}.styles .stage{order:2}}
+@media (max-width:520px){.inside{grid-template-columns:1fr}}
+.thanks{position:fixed;inset:0;z-index:50;background:color-mix(in srgb,var(--ink) 55%,transparent);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px, env(safe-area-inset-right, 0px)) 16px max(16px, env(safe-area-inset-left, 0px))}
+.thanks-card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:32px;max-width:480px;display:flex;flex-direction:column;gap:14px}
+.thanks-card h2{font-size:clamp(1.6rem,4vw,2.1rem)}
+.thanks-card p{color:var(--muted)}
+.thanks-card .btn{align-self:flex-start;margin-top:6px}
+</style>
+
+
+</head>
+<body>
+<div class="thanks" id="thanks" hidden>
+  <div class="thanks-card" role="dialog" aria-labelledby="thanks-h">
+    <span class="rec" aria-hidden="true"></span>
+    <h2 id="thanks-h">Payment received. Check your inbox.</h2>
+    <p>Your download link is on its way to the email you used at checkout. It usually arrives within a minute.</p>
+    <p>Not there after 10 minutes? Check your spam or promotions folder, then email <span class="mono" id="support-email">support</span> and we'll sort it out.</p>
+    <button class="btn" type="button" id="thanks-close">Back to the page</button>
+  </div>
+</div>
+
+<div class="bar" id="bar"><div class="wrap"><span>Launch price <b>$39</b></span><span>· goes to <b>$59</b> in <b id="countdown">-</b></span></div></div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="rec" aria-hidden="true"></span>Faceless Reel Kit</a>
+    <a class="btn small" href="#pricing">Get the kit</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="pill"><i>▶</i>For people who want to post every day without filming or editing</span>
+      <h1 style="margin-top:22px">Type one sentence. <em>Get a finished reel.</em></h1>
+      <p class="lede">A Claude Code skill and video kit that writes the script, voices it, animates every scene with synced captions and renders a 1080×1920 reel ready for Instagram. Plus the playbook for turning those reels into a page that grows.</p>
+      <div class="cta-row">
+        <a class="btn" href="#pricing">Get the kit for $39</a>
+        <a class="btn ghost" href="#how">See how it works</a>
+      </div>
+      <div class="facts">
+        <span><b>1</b>line to a reel</span>
+        <span><b>15</b>visual styles</span>
+        <span><b>25</b>hook formulas</span>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="phone">
+        <video src="/facelessreelkit/example.mp4" poster="/facelessreelkit/poster.jpg" autoplay muted loop playsinline aria-label="Example reel: Saturn would float"></video>
+      </div>
+      <p class="vidnote">The example reel that ships with the kit, rendered by the starter project.</p>
+    </div>
+  </div>
+</header>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="checks">
+      <div class="check"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M7.5 13.5l3.8 3.7 7.4-8" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p>You get <b>a complete reel studio in one folder</b>: a ready-to-run Remotion project, reusable animation blocks, a style library and the skill that ties it together.</p></div>
+      <div class="check"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M7.5 13.5l3.8 3.7 7.4-8" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Describe your topic in one line</b> and Claude does the rest: the hook, the script, an AI voiceover with word-synced captions, every animated scene, the render and the caption.</p></div>
+      <div class="check"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M7.5 13.5l3.8 3.7 7.4-8" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p>There's <b>nothing to film and nothing to edit</b>. Ask for changes in plain words like "slower" or "bigger text" and it re-renders.</p></div>
+      <div class="check"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M7.5 13.5l3.8 3.7 7.4-8" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>A playbook from zero to paid</b>: picking a niche, setting up the page, writing hooks, a weekly posting system and how to make money from it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2 style="margin-top:12px">From one line to a posted reel</h2>
+    <div class="steps">
+      <div class="step"><span class="n">STEP 1</span><h3>Open the kit</h3><p>Unzip, run one install command, and open the folder in Claude Code. The playbook walks you through it.</p></div>
+      <div class="step"><span class="n">STEP 2</span><h3>Say the topic</h3><p><span class="mono">"Make a reel: octopuses have three hearts. Abyss style."</span></p></div>
+      <div class="step"><span class="n">STEP 3</span><h3>Approve the script</h3><p>Claude shows the hook, middle and payoff. Say "go" or change anything.</p></div>
+      <div class="step"><span class="n">STEP 4</span><h3>Post the MP4</h3><p>It renders the reel and hands you a cover line, caption and hashtags to paste.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="styles" style="padding-top:0">
+  <div class="wrap styles">
+    <div class="stage">
+      <div class="phone">
+        <canvas id="reel" width="540" height="960" aria-label="Previews of visual styles"></canvas>
+        <div class="tc mono"><span id="tc">00:00:00</span><span>1080×1920</span></div>
+      </div>
+      <div class="track" id="track" role="tablist" aria-label="Choose a style to preview"></div>
+      <p class="nowplaying" id="nowplaying"></p>
+    </div>
+    <div class="copy">
+      <p class="eyebrow">Style library</p>
+      <h2 style="margin-top:12px">Pick a look. Keep it on every post.</h2>
+      <p>The kit includes 15 ready-made visual styles, from Claymation and Blueprint to Deep Space and Abyss. Each is a full description Claude follows: palette, texture, motion and caption treatment.</p>
+      <p>Use one per page and viewers start recognising your reels in the feed before they read your name. These are quick previews of ten of them.</p>
+    </div>
+  </div>
+</section>
+
+<section id="inside" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">What's inside</p>
+    <h2 style="margin-top:12px">Everything in the download</h2>
+    <div class="inside">
+      <div><span class="path">.claude/skills/faceless-reel/</span><h3>The reel skill</h3><p>Turns one line into a scripted, animated, rendered reel, then writes your caption.</p></div>
+      <div><span class="path">remotion-starter/</span><h3>Starter project</h3><p>Set up for 1080×1920 at 30 fps with Instagram-safe zones. Install once, reuse forever.</p></div>
+      <div><span class="path">scripts/voiceover.mjs</span><h3>AI voiceover</h3><p>Turns the script into a natural voice with ElevenLabs and times every caption to the spoken word.</p></div>
+      <div><span class="path">references/styles.md</span><h3>15 visual styles</h3><p>Named looks you can put on any topic, so your page stays consistent.</p></div>
+      <div><span class="path">references/hooks.md</span><h3>25 hook formulas</h3><p>With examples, plus the rules for the first three seconds.</p></div>
+      <div><span class="path">playbook/</span><h3>The playbook (PDF)</h3><p>Setup, first reel, niches, page setup, scripting, posting system and making money.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" style="padding-top:0">
+  <div class="wrap">
+    <div class="price">
+      <div class="left">
+        <p class="eyebrow" id="price-label">Launch price</p>
+        <div class="was" id="was">$59</div>
+        <div class="amount" id="amount">$39<small>USD</small></div>
+        <p style="color:var(--muted);margin-top:14px;max-width:30em">Pay once. Instant download. Use it on as many pages as you want.</p>
+        <div class="cta-row"><a class="btn" id="buy" href="#pricing">Get the Faceless Reel Kit</a></div>
+        <p class="fine">You'll also need Claude Code (paid Claude plan), a computer that runs Node.js, and an ElevenLabs account for voiceovers.</p>
+      </div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:18px">You get</p>
+        <ul class="incl">
+          <li>The faceless-reel skill for Claude Code</li>
+          <li>Ready-to-run Remotion starter project</li>
+          <li>AI voiceover with word-synced captions</li>
+          <li>Reusable animation building blocks</li>
+          <li>15 visual styles and 25 hook formulas</li>
+          <li>9 scene recipes that work again and again</li>
+          <li>The Faceless Reel Playbook (PDF)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proof" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">Built in public</p>
+    <h2 style="margin-top:12px">I'm running 10 pages with this kit</h2>
+    <p style="color:var(--muted);margin-top:14px;max-width:40em">Every reel on these pages is made with exactly what you're buying. Follow along and see what works.</p>
+    <div class="pages" id="pages"></div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">Questions</p>
+    <h2 style="margin-top:12px">Before you buy</h2>
+    <div class="faq">
+      <details><summary>Do I need to know how to code?</summary><p>No. Claude writes all the code. You type requests in plain English. The playbook covers the one-time setup step by step, including the few terminal commands you'll need.</p></details>
+      <details><summary>What do I need to run it?</summary><p>A Mac, Windows or Linux computer with Node.js, and Claude Code, which needs a paid Claude plan (Pro or higher) or Anthropic API credits. For voiceovers, an ElevenLabs account.</p></details>
+      <details><summary>Does it do voiceovers?</summary><p>Yes. The kit voices your script with ElevenLabs and syncs the captions to every word. You need your own ElevenLabs account, and the free plan is enough to try it. The playbook walks you through setup. You can also make captions-only reels with no account at all.</p></details>
+      <details><summary>Is Remotion free?</summary><p>Remotion is free for individuals and companies of up to three people. Larger companies need a company licence from remotion.dev.</p></details>
+      <details><summary>Will my reels look like everyone else's?</summary><p>No. Claude writes new animation code for every reel, so the same topic comes out differently each time. Mix styles and your own ideas to make the page yours.</p></details>
+      <details><summary>How do I get it after paying?</summary><p>You get the download link right after checkout, and a copy by email.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Faceless Reel Kit · by @yourhandle</span>
+    <span>Not affiliated with Anthropic, Instagram or Remotion.</span>
+  </div>
+</footer>
+
+<script>
+/* ---- settings: change these ---- */
+const LAUNCH_ENDS = '2026-12-01T08:00:00Z';   // launch price ends here, then the page shows $59
+const CHECKOUT_URL = 'https://buy.stripe.com/cNi3cxaoc3Ac6wU6Ys7ok00'; // LIVE Stripe payment link                       // your Stripe Payment Link (https://buy.stripe.com/...)
+const SUPPORT_EMAIL = 'kit@hamedlatif.co.uk'; // shown to buyers after checkout
+const MY_PAGES = [
+ {name:"Byte Brief",niche:"Tech news",sw:"#1FC8E8",handle:"@yourhandle"},
+ {name:"60 Second History",niche:"History",sw:"#B8453A",handle:"@yourhandle"},
+ {name:"What If Lab",niche:"What if",sw:"#F2A93B",handle:"@yourhandle"},
+ {name:"Daily Whiskers",niche:"Cats",sw:"#F08A3C",handle:"@yourhandle"},
+ {name:"Cosmic Scale",niche:"Space",sw:"#D9C27A",handle:"@yourhandle"},
+ {name:"Inside Machines",niche:"How things work",sw:"#FF7A2E",handle:"@yourhandle"},
+ {name:"Body Inside",niche:"Human body",sw:"#E8547A",handle:"@yourhandle"},
+ {name:"Abyss Files",niche:"Deep sea",sw:"#2BD6B0",handle:"@yourhandle"},
+ {name:"Myth in Motion",niche:"Mythology",sw:"#D9733A",handle:"@yourhandle"},
+ {name:"Money Mechanics",niche:"Personal finance",sw:"#1E9E5A",handle:"@yourhandle"},
+];
+
+/* ---- after checkout: Stripe sends buyers back to this page with #thanks ---- */
+document.getElementById('support-email').textContent = SUPPORT_EMAIL;
+function showThanks(){ document.getElementById('thanks').hidden = location.hash !== '#thanks'; }
+showThanks(); addEventListener('hashchange', showThanks);
+document.getElementById('thanks-close').onclick = () => { history.replaceState(null, '', location.pathname + location.search); showThanks(); };
+
+/* ---- checkout links ---- */
+if (CHECKOUT_URL) document.querySelectorAll('a[href="#pricing"]').forEach(a => a.href = CHECKOUT_URL);
+
+/* ---- launch countdown (real deadline; switches to the regular price after it) ---- */
+const end = new Date(LAUNCH_ENDS).getTime();
+function tick(){
+  const ms = end - Date.now();
+  if (ms <= 0){
+    document.getElementById('bar').hidden = true;
+    document.getElementById('was').hidden = true;
+    document.getElementById('price-label').textContent = 'One-time purchase';
+    document.getElementById('amount').innerHTML = '$59<small>USD</small>';
+    document.querySelectorAll('.cta-row .btn').forEach(b => { if (b.textContent.includes('$39')) b.textContent = 'Get the kit for $59'; });
+    return;
+  }
+  const d=Math.floor(ms/864e5), h=Math.floor(ms/36e5)%24, m=Math.floor(ms/6e4)%60, s=Math.floor(ms/1e3)%60;
+  document.getElementById('countdown').textContent = `${d}d ${h}h ${m}m ${s}s`;
+  setTimeout(tick, 1000);
+}
+tick();
+
+/* ---- pages ---- */
+const pagesEl=document.getElementById('pages');
+MY_PAGES.forEach(p=>{const d=document.createElement('div');d.className='pg';d.style.setProperty('--sw',p.sw);d.innerHTML=`<b>${p.name}</b><span>${p.niche}</span><a>${p.handle}</a>`;pagesEl.appendChild(d)});
+
+/* ---- style previews ---- */
+const PAGES=[
+ {name:"Neon Grid",niche:"Tech",sw:"#1FC8E8"},
+ {name:"Parchment",niche:"History",sw:"#B8453A"},
+ {name:"Deep Space",niche:"What if",sw:"#F2A93B"},
+ {name:"Claymation",niche:"Cats",sw:"#F08A3C"},
+ {name:"Deep Space",niche:"Space",sw:"#D9C27A"},
+ {name:"Blueprint",niche:"How things work",sw:"#2D6BFF"},
+ {name:"Glow Bio",niche:"The body",sw:"#E8547A"},
+ {name:"Abyss",niche:"Ocean",sw:"#2BD6B0"},
+ {name:"Vase Painting",niche:"Mythology",sw:"#D9733A"},
+ {name:"Ledger",niche:"Money",sw:"#1E9E5A"},
+];
+const cv=document.getElementById('reel'),x=cv.getContext('2d'),W=540,H=960;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DUR=3.2;let cur=0,t0=performance.now(),paused=false;
+const track=document.getElementById('track');
+PAGES.forEach((p,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-label',p.name);b.innerHTML=`<i class="fill"></i><span>${i+1}</span>`;b.onclick=()=>select(i);track.appendChild(b)});
+function select(i){cur=i;t0=performance.now();if(reduce)frame(performance.now())}
+function rng(s){return()=>((s=Math.imul(s^s>>>15,1|s)+0x6D2B79F5|0,((s^s>>>14)>>>0)/4294967296))}
+const STARS=(()=>{const r=rng(7),a=[];for(let i=0;i<120;i++)a.push([r()*W,r()*H,r()*1.8+.3]);return a})();
+function caption(txt,col="#fff",bg=null,font="800 40px 'Bricolage Grotesque', sans-serif",y=250){
+  x.font=font;x.textAlign="center";const words=txt.split(' ');let lines=[],l='';
+  words.forEach(w=>{const tt=l?l+' '+w:w;if(x.measureText(tt).width>440){lines.push(l);l=w}else l=tt});lines.push(l);
+  lines.forEach((ln,k)=>{const yy=y+k*46;if(bg){const w=x.measureText(ln).width+28;x.fillStyle=bg;x.beginPath();x.roundRect(W/2-w/2,yy-36,w,46,10);x.fill()}x.fillStyle=col;x.fillText(ln,W/2,yy)});
+}
+const S=[
+ (t)=>{ // tech
+  x.fillStyle="#070B18";x.fillRect(0,0,W,H);x.fillStyle="#1B2A4A";for(let i=0;i<W;i+=30)for(let j=0;j<H;j+=30)x.fillRect(i,j,2,2);
+  const cx=W/2,cy=560,s=110,a=t*1.2,ex=Math.sin(t*2)*18;
+  const pts=[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]].map(([px,py,pz])=>{const c=Math.cos(a),sn=Math.sin(a);const X=px*c-pz*sn,Z=px*sn+pz*c;return[cx+X*s,cy+py*s*.9+Z*s*.35+ (py<0?-ex:ex)]});
+  x.strokeStyle="#1FC8E8";x.lineWidth=3;x.shadowColor="#1FC8E8";x.shadowBlur=14;
+  [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]].forEach(([p,q])=>{x.beginPath();x.moveTo(...pts[p]);x.lineTo(...pts[q]);x.stroke()});x.shadowBlur=0;
+  const lab="CHIP_A19 · 3nm".slice(0,Math.floor(t*8));x.font="600 20px 'JetBrains Mono', monospace";x.fillStyle="#9EEBFA";x.textAlign="left";x.fillText(lab,pts[1][0]+10,pts[1][1]-30);
+  caption("Your phone started as sand");
+ },
+ (t)=>{ // history
+  x.fillStyle="#E9D9B4";x.fillRect(0,0,W,H);x.strokeStyle="#6B4A2B";x.lineWidth=2;x.strokeRect(30,140,W-60,H-300);
+  const rows=Math.min(9,Math.floor(t*3.4));for(let r=0;r<rows;r++){const w=360-r*38,y=720-r*34;x.fillStyle=r%2?"#C9A46A":"#D7B47A";x.fillRect(W/2-w/2,y,w,32);x.strokeStyle="#6B4A2B";x.strokeRect(W/2-w/2,y,w,32)}
+  x.fillStyle="#8E2B22";x.beginPath();x.arc(420,250+260,34,0,7);x.fill();x.fillStyle="#F3E4C4";x.font="700 13px 'JetBrains Mono', monospace";x.textAlign="center";x.fillText("c.2560",420,507);x.fillText("BC",420,523);
+  x.font="600 20px 'JetBrains Mono', monospace";x.fillStyle="#6B4A2B";x.fillText(Math.floor(Math.min(1,t/2.7)*2300000).toLocaleString()+" blocks",W/2,800);
+  caption("2.3 million blocks. No cranes.","#3A2614");
+ },
+ (t)=>{ // what if
+  x.fillStyle="#140F33";x.fillRect(0,0,W,H);STARS.forEach(([a,b,r])=>{x.fillStyle="rgba(255,255,255,.5)";x.fillRect(a,b,r,r)});
+  const cx=W/2,cy=560;const g=x.createRadialGradient(cx-30,cy-30,10,cx,cy,110);g.addColorStop(0,"#5BA8FF");g.addColorStop(1,"#1A3F8F");x.fillStyle=g;x.beginPath();x.arc(cx,cy,100,0,7);x.fill();
+  const a=t*1.6,mx=cx+Math.cos(a)*190,my=cy+Math.sin(a)*70;const vis=t<1.9?1:Math.max(0,1-(t-1.9)*4);
+  x.globalAlpha=vis;x.fillStyle="#D8D8E2";x.beginPath();x.arc(mx,my,26,0,7);x.fill();x.globalAlpha=1;
+  if(t>2)caption("SIM 03 · MOON: NULL","#F2A93B",null,"600 20px 'JetBrains Mono', monospace",770);
+  caption("What if the Moon disappeared?");
+ },
+ (t)=>{ // cats
+  x.fillStyle="#F7D9D1";x.fillRect(0,0,W,H);x.fillStyle="#C9A27E";x.fillRect(0,700,W,260);
+  const cx=W/2,cy=600,wob=Math.sin(Math.floor(t*12)*1.7)*2;x.fillStyle="#F08A3C";
+  x.beginPath();x.ellipse(cx,cy+70+wob,120,80,0,0,7);x.fill();
+  x.beginPath();x.arc(cx,cy-30,82,0,7);x.fill();
+  [[-1],[1]].forEach(([d])=>{x.beginPath();x.moveTo(cx+d*70,cy-70);x.lineTo(cx+d*52,cy-140);x.lineTo(cx+d*20,cy-100);x.fill()});
+  const tail=Math.sin(t*5)*.5;x.strokeStyle="#F08A3C";x.lineWidth=22;x.lineCap="round";x.beginPath();x.moveTo(cx+110,cy+100);x.quadraticCurveTo(cx+190,cy+40,cx+170+tail*40,cy-30);x.stroke();
+  const blink=(t%1.6)<.12;x.fillStyle="#1D1410";[-30,30].forEach(d=>{x.beginPath();blink?x.rect(cx+d-10,cy-38,20,4):x.arc(cx+d,cy-36,10,0,7);x.fill()});
+  x.fillStyle="#E4664A";x.beginPath();x.arc(cx,cy-10,6,0,7);x.fill();
+  caption("If it fits, I sits","#3A2620","#FFFFFF","800 38px 'Bricolage Grotesque', sans-serif",260);
+ },
+ (t)=>{ // space
+  x.fillStyle="#000";x.fillRect(0,0,W,H);STARS.forEach(([a,b,r])=>{x.fillStyle="#fff";x.globalAlpha=.6;x.fillRect((a-t*6+W)%W,b,r,r)});x.globalAlpha=1;
+  const cx=W/2,cy=580;x.save();x.translate(cx,cy+Math.sin(t*2)*8);
+  const g=x.createLinearGradient(-90,-90,90,90);g.addColorStop(0,"#F3DFA6");g.addColorStop(1,"#B08A4A");x.fillStyle=g;x.beginPath();x.arc(0,0,90,0,7);x.fill();
+  x.strokeStyle="rgba(217,194,122,.8)";x.lineWidth=10;x.beginPath();x.ellipse(0,0,170,40,-.25,0,7);x.stroke();x.restore();
+  x.fillStyle="rgba(90,150,255,.35)";x.fillRect(0,cy+40,W,H);
+  caption("Saturn would float","#F3E7C0");
+ },
+ (t)=>{ // machines
+  x.fillStyle="#EEF3FA";x.fillRect(0,0,W,H);x.strokeStyle="#D3DDEC";for(let i=0;i<W;i+=30){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke()}for(let j=0;j<H;j+=30){x.beginPath();x.moveTo(0,j);x.lineTo(W,j);x.stroke()}
+  const cx=W/2,a=t*4,cr=60,cy=720,px=cy+Math.cos(a)*cr-200;
+  x.strokeStyle="#9AA6BC";x.lineWidth=4;x.strokeRect(cx-80,380,160,300);
+  x.fillStyle="#FF7A2E";x.fillRect(cx-74,px-20,148,60);
+  x.strokeStyle="#15151C";x.lineWidth=8;x.beginPath();x.moveTo(cx,px+20);x.lineTo(cx+Math.sin(a)*cr,cy+Math.cos(a)*cr);x.stroke();
+  x.strokeStyle="#9AA6BC";x.lineWidth=3;x.beginPath();x.arc(cx,cy,cr,0,7);x.stroke();
+  const st=["INTAKE","COMPRESSION","POWER","EXHAUST"][Math.floor((a/Math.PI)%4)];x.font="600 20px 'JetBrains Mono', monospace";x.fillStyle="#2D6BFF";x.textAlign="left";x.fillText("▸ "+st,cx+100,px+16);
+  caption("What's happening inside your engine","#15151C");
+ },
+ (t)=>{ // body
+  x.fillStyle="#1A0A14";x.fillRect(0,0,W,H);const r=rng(3);for(let i=0;i<40;i++){x.fillStyle="rgba(255,140,170,.25)";x.beginPath();x.arc(r()*W,(r()*H-t*20+H)%H,r()*4+1,0,7);x.fill()}
+  const beat=Math.max(0,Math.sin(t*6))**6,cx=W/2,cy=580,s=1+beat*.12;
+  x.save();x.translate(cx,cy);x.scale(s,s);const g=x.createRadialGradient(0,0,10,0,0,130);g.addColorStop(0,"#FF8FA8");g.addColorStop(1,"#B0213F");x.fillStyle=g;
+  x.beginPath();x.moveTo(0,90);x.bezierCurveTo(-170,-20,-80,-140,0,-60);x.bezierCurveTo(80,-140,170,-20,0,90);x.fill();x.restore();
+  x.strokeStyle=`rgba(120,190,255,${.8-beat*.5})`;x.lineWidth=3;x.beginPath();x.arc(cx,cy,150+beat*40,0,7);x.stroke();
+  caption("One heartbeat, slowed down");
+ },
+ (t)=>{ // deep sea
+  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,"#0B5B6B");g.addColorStop(.5,"#031823");g.addColorStop(1,"#000");x.fillStyle=g;x.fillRect(0,0,W,H);
+  const r=rng(11);for(let i=0;i<60;i++){x.fillStyle="rgba(200,240,255,.35)";x.fillRect(r()*W,(r()*H-t*25+H)%H,2,2)}
+  const lx=W/2+Math.sin(t*1.8)*30,ly=600+Math.cos(t*2.3)*14;x.strokeStyle="rgba(43,214,176,.5)";x.lineWidth=2;x.beginPath();x.moveTo(W/2-60,700);x.quadraticCurveTo(W/2-40,ly-60,lx,ly);x.stroke();
+  x.shadowColor="#2BD6B0";x.shadowBlur=30;x.fillStyle="#BFFFEF";x.beginPath();x.arc(lx,ly,10,0,7);x.fill();x.shadowBlur=0;
+  x.fillStyle="#2BD6B0";x.fillRect(W-40,150,3,640);const d=Math.min(1,t/2.8);x.fillRect(W-50,150+d*620,23,4);
+  x.font="600 16px 'JetBrains Mono', monospace";x.textAlign="right";x.fillText(Math.floor(d*1000)+" m",W-56,158+d*620);
+  caption("How deep does the ocean go?","#E4FFF8");
+ },
+ (t)=>{ // myth
+  x.fillStyle="#141010";x.fillRect(0,0,W,H);x.strokeStyle="#D9733A";x.lineWidth=3;
+  for(let i=40;i<W-40;i+=40){x.beginPath();x.moveTo(i,150);x.lineTo(i,130);x.lineTo(i+30,130);x.lineTo(i+30,145);x.lineTo(i+15,145);x.stroke();x.beginPath();x.moveTo(i,830);x.lineTo(i,810);x.lineTo(i+30,810);x.lineTo(i+30,825);x.lineTo(i+15,825);x.stroke()}
+  x.fillStyle="#D9733A";x.beginPath();x.moveTo(40,780);x.lineTo(W-40,520);x.lineTo(W-40,780);x.fill();
+  const p=(t/DUR),bx=80+p*340,by=780-(bx-40)*(260/(W-80))-46;x.fillStyle="#141010";
+  x.beginPath();x.arc(bx+36,by-6,40,0,7);x.fillStyle="#D9733A";x.fill();x.strokeStyle="#141010";x.lineWidth=3;x.stroke();
+  x.fillStyle="#D9733A";x.fillRect(bx-26,by-60,14,50);x.beginPath();x.arc(bx-19,by-74,12,0,7);x.fill();x.save();x.translate(bx-19,by-10);x.rotate(-.5);x.fillRect(-6,0,12,40);x.restore();
+  caption("Pushing a rock forever","#F0C9A6",null,"700 40px Georgia, serif",300);
+ },
+ (t)=>{ // money
+  x.fillStyle="#F6F5F0";x.fillRect(0,0,W,H);x.strokeStyle="#E2E1D8";for(let j=380;j<820;j+=40){x.beginPath();x.moveTo(40,j);x.lineTo(W-40,j);x.stroke()}
+  const n=30,p=Math.min(1,t/2.6),shown=Math.floor(n*p);
+  for(let i=0;i<shown;i++){const y=i+1,put=1200*y,fv=100*((Math.pow(1+.08/12,12*y)-1)/(.08/12));const bw=12,bx=60+i*14.2;
+   x.fillStyle="#1E9E5A";const h1=fv/149000*400;x.fillRect(bx,820-h1,bw,h1);x.fillStyle="#15151C";const h2=put/149000*400;x.fillRect(bx,820-h2,bw,h2)}
+  const val=shown?100*((Math.pow(1+.08/12,12*shown)-1)/(.08/12)):0;
+  x.font="800 44px 'Bricolage Grotesque', sans-serif";x.fillStyle="#1E9E5A";x.textAlign="left";x.fillText("$"+Math.round(val).toLocaleString(),60,380);
+  x.font="600 14px 'JetBrains Mono', monospace";x.fillStyle="#5D5F70";x.fillText("YEAR "+shown+" · 8%/YR · NOT FINANCIAL ADVICE",60,860);
+  caption("$100 a month for 30 years","#15151C");
+ },
+];
+
+const tcEl=document.getElementById('tc'),np=document.getElementById('nowplaying'),btns=[...track.children];
+function frame(now){
+  let t=(now-t0)/1000;if(!reduce&&t>DUR){cur=(cur+1)%PAGES.length;t0=now;t=0}
+  if(reduce)t=DUR*.85;
+  x.save();S[cur](t);x.restore();
+  if(!reduce&&t<.25){x.fillStyle=PAGES[cur].sw;x.fillRect(0,0,W*(1-t/.25),H)}
+  const f=Math.floor(t*30);tcEl.textContent=`00:00:${String(Math.floor(t)).padStart(2,'0')}:${String(f%30).padStart(2,'0')}`;
+  np.textContent=`${PAGES[cur].name} · ${PAGES[cur].niche}`;
+  btns.forEach((b,i)=>{b.classList.toggle('on',i===cur);b.setAttribute('aria-selected',i===cur);b.firstChild.style.transform=`scaleX(${i<cur?1:i===cur?(reduce?1:Math.min(1,t/DUR)):0})`});
+  if(!reduce)requestAnimationFrame(frame);
+}
+document.fonts.ready.then(()=>{t0=performance.now();reduce?frame(performance.now()):requestAnimationFrame(frame)});
+</script>
+
+</body>
+</html>
